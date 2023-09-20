@@ -25,7 +25,9 @@ public class Main {
 
         try (Connection conn = createConnection()) {
             insertStudent(conn, studentNo, studentNam, studentScore);
-            selectStudent(conn, studentNo, studentNam, studentScore, studentNumberEnter);
+            singleSelectStudent(conn, studentNumberEnter);
+            allSelectStudent(conn, studentNo, studentNam, studentScore);
+
 
             //Bağlantıyı kapatma
             conn.close();
@@ -34,7 +36,7 @@ public class Main {
         }
     }
 
-
+    //Database connection
     private static Connection createConnection() throws SQLException {
         String jdbcUrl = "jdbc:postgresql://localhost:5432/test";
         String kullaniciAdi = "postgres";
@@ -42,6 +44,7 @@ public class Main {
         return DriverManager.getConnection(jdbcUrl,kullaniciAdi,parola);
     }
 
+    //INSERT işlemleri
     private static void insertStudent(Connection conn, int studentNo, String studentNam, double studentScore) throws SQLException {
         Students inserStudents = new Students(studentNo, studentNam, studentScore);
         String insertSQL = "INSERT INTO students (student_id,student_name,score) VALUES (?,?,?)";
@@ -54,9 +57,10 @@ public class Main {
 
     }
 
-    private static void selectStudent(Connection conn, int studentNo, String studentNam, double studentScore,int studentNumberEnter) throws SQLException {
+    //SELECT işlemi Single Student
+    private static void singleSelectStudent(Connection conn, int studentNumberEnter) throws SQLException {
         List<Students> studentsList = new ArrayList<>();
-        //SELECT işlemi Single Student
+
         String singleSelectSQL = "SELECT * FROM students WHERE student_id=?";
         PreparedStatement singleSelectStatement = conn.prepareStatement(singleSelectSQL);
         singleSelectStatement.setInt(1, studentNumberEnter);
@@ -71,7 +75,11 @@ public class Main {
             System.out.println("student no: " + singleStudentId + ", student name: " + singleStudentName + ", score: " + singleScore);
         }
 
-        //SELECT işlemi All student
+    }
+
+    //SELECT işlemi All Student
+    private static void allSelectStudent(Connection conn, int studentNo, String studentNam, double studentScore) throws SQLException {
+        List<Students> studentsList = new ArrayList<>();
         System.out.println("All Student List");
         String selectSQL = "SELECT * FROM students";
         PreparedStatement selectStatement = conn.prepareStatement(selectSQL);
@@ -84,6 +92,7 @@ public class Main {
             studentsList.add(students);
             System.out.println("student no: " + studentId + ", student name: " + studentName + ", score: " + score);
         }
+
 
     }
 }
