@@ -1,4 +1,4 @@
-package students;
+package students_example;
 
 import java.sql.*;
 import java.util.ArrayList;

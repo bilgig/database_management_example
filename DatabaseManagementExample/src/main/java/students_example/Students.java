@@ -1,4 +1,4 @@
-package students;
+package students_example;
 
 public class Students {
     private int student_id;
