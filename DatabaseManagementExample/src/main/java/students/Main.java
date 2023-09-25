@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
 
-
+//ff
     public static void main(String[] args) {
         //Enter new student
         Scanner scanner = new Scanner(System.in);
